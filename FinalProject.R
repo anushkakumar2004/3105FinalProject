@@ -141,6 +141,7 @@ combined_data <- consumersentiment_expanded %>%
   left_join(sp500, by = "Date", suffix = c("", "_sp500")) %>%
   left_join(wheat, by = "Date", suffix = c("", "_wheat")) %>%
   left_join(dec24, by = "Date", suffix = c("", "_dec24")) %>%
+  left_join(apr25, by = "Date", suffix = c("", "_apr25")) %>%
   left_join(placements_daily, by = "Date") %>%
   left_join(weather, by = "Date") %>%
   drop_na() %>%
@@ -189,7 +190,7 @@ train_indices <- createDataPartition(combined_data$Open, p = 0.8, list = FALSE)
 train_data <- combined_data[train_indices, ]
 test_data <- combined_data[-train_indices, ]
 # Linear Model
-lm_model <- lm(Open ~ . - Date - Open_diff - Open_feb25 - Kansas_Temp - Open_interestrate - Open_soybeans - Open_inflation - Nebraska_Temp - Month - Total_Placements - Open_dollar - Open_sp500 - Texas_Temp, data = train_data)
+lm_model <- lm(Open ~ . - Date - Open_diff - Open_feb25 - Open_apr25 - Kansas_Temp - Open_interestrate - Open_soybeans - Open_inflation - Nebraska_Temp - Month - Total_Placements - Open_dollar - Open_sp500 - Texas_Temp, data = train_data)
 # Check for Multicollinearity
 vif(lm_model)
 # Display the summary of the model
